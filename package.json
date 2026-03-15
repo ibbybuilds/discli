@@ -1,6 +1,6 @@
 {
   "name": "@ibbybuilds/discli",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "discli — Discord server management CLI. Control your servers from the terminal. Built for humans and AI agents.",
   "type": "module",
   "bin": {
@@ -19,7 +19,11 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "start": "node dist/cli.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --test test/*.test.js",
+    "release:patch": "npm run typecheck && npm run build && npm version patch && npm publish --access=public && git push && git push --tags",
+    "release:minor": "npm run typecheck && npm run build && npm version minor && npm publish --access=public && git push && git push --tags",
+    "release:major": "npm run typecheck && npm run build && npm version major && npm publish --access=public && git push && git push --tags"
   },
   "keywords": [
     "discord",

@@ -14,7 +14,7 @@ const program = new Command();
 program
   .name('discli')
   .description('discli — Discord server management CLI')
-  .version('0.4.0')
+  .version('0.5.0')
   .option('--format <fmt>', 'Output format: json, yaml, table, auto (auto = yaml when piped, table in terminal)', 'auto')
   .option('--server <id>', 'Server ID override');
 
