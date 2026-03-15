@@ -12,7 +12,7 @@ Create channels, manage roles, set permissions, and control your Discord servers
 
 No bot server needed. No dashboard clicking. Just commands.
 
-> Your AI agent ([AIOS Companion](https://github.com/ibbybuilds/aegra), [OpenClaw](https://github.com/openclaw/openclaw), Claude Code, Cursor, Codex) can use discli to manage your Discord server. Create channels, assign roles, rename everything, in seconds.
+> Your AI agent ([AIOS Companion](https://aioscompanion.com), [OpenClaw](https://github.com/openclaw/openclaw), Claude Code, Cursor, Codex) can use discli to manage your Discord server. Create channels, assign roles, rename everything, in seconds.
 
 <br>
 
@@ -63,6 +63,14 @@ discli server info
 6. Run `discli init --token YOUR_TOKEN`
 
 </details>
+
+<br>
+
+## ⚠️ Safety
+
+**When using with AI agents:** Always review commands before approving. Destructive commands like `channel delete`, `member kick`, and `member ban` require `--confirm` but your agent may add that flag automatically. Make sure your agent setup asks for your approval before running destructive actions.
+
+**Bot permissions:** discli works best with Administrator permission, but you don't have to give it full access. When adding the bot to your server, you can uncheck Administrator and select only the permissions you need (Manage Channels, Manage Roles, etc.). Some features won't work without specific permissions, but you stay in control of what the bot can do.
 
 <br>
 
@@ -169,7 +177,7 @@ discli audit types                       # List all action type names
 
 ## 🤖 For AI Agents
 
-discli is designed for AI agents like [AIOS Companion](https://github.com/ibbybuilds/aegra), [OpenClaw](https://github.com/openclaw/openclaw), Claude Code, Cursor, Codex, and others.
+discli is designed for AI agents like [AIOS Companion](https://aioscompanion.com), [OpenClaw](https://github.com/openclaw/openclaw), Claude Code, Cursor, Codex, and others.
 
 ### How agents use it
 
@@ -261,14 +269,6 @@ discli uses your bot token. You create the bot, you control the permissions, you
 ├── config.json    # default server
 └── .env           # your bot token (never leaves your machine)
 ```
-
-<br>
-
-## ⚠️ Safety
-
-**When using with AI agents:** Always review commands before approving. Destructive commands like `channel delete`, `member kick`, and `member ban` require `--confirm` but your agent may add that flag automatically. Make sure your agent setup asks for your approval before running destructive actions.
-
-**Bot permissions:** discli works best with Administrator permission, but you don't have to give it full access. When adding the bot to your server, you can uncheck Administrator and select only the permissions you need (Manage Channels, Manage Roles, etc.). Some features won't work without specific permissions, but you stay in control of what the bot can do.
 
 <br>
 
