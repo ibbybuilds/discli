@@ -37,7 +37,7 @@ One command = one API call. No bot server. No token overhead.
 
 ```bash
 # Install
-npm install -g discli
+npm install -g @ibbybuilds/discli
 
 # Setup (paste your bot token)
 discli init --token YOUR_BOT_TOKEN
@@ -146,7 +146,7 @@ discli is designed for AI coding agents like Claude Code, Cursor, Codex, and oth
 
 ```bash
 # Install discli globally
-npm install -g discli
+npm install -g @ibbybuilds/discli
 
 # Copy the skill file
 cp node_modules/discli/skills/SKILL.md ~/.claude/skills/discli/SKILL.md
