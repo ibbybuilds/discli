@@ -12,7 +12,7 @@ Create channels, manage roles, set permissions, and control your Discord servers
 
 No bot server needed. No dashboard clicking. Just commands.
 
-> Your AI agent (Claude Code, Cursor, Windsurf, Codex) can use discli to manage your Discord server. Create channels, assign roles, rename everything, in seconds.
+> Your AI agent ([AIOS Companion](https://github.com/ibbybuilds/aegra), [OpenClaw](https://github.com/openclaw/openclaw), Claude Code, Cursor, Codex) can use discli to manage your Discord server. Create channels, assign roles, rename everything, in seconds.
 
 <br>
 
@@ -33,11 +33,14 @@ One command = one API call. No bot server. No token overhead.
 
 <br>
 
-## Quick Start
+## 🚀 Quick Start
 
 ```bash
 # Install
 npm install -g @ibbybuilds/discli
+
+# Or run directly without installing
+npx @ibbybuilds/discli --help
 
 # Setup (paste your bot token)
 discli init --token YOUR_BOT_TOKEN
@@ -48,7 +51,7 @@ discli server info
 ```
 
 <details>
-<summary><strong>How to get a bot token</strong></summary>
+<summary><strong>🔑 How to get a bot token</strong></summary>
 
 <br>
 
@@ -63,22 +66,21 @@ discli server info
 
 <br>
 
-## Commands
+## 📖 Commands
 
-### Server
+### 🖥️ Server
 
 ```bash
 discli server list              # List servers the bot is in
 discli server select <id>       # Set default server
 discli server info              # Server overview
-discli server set --name "X"   # Change server name
-discli server set --description "X"  # Set description
-discli server set --verification medium  # Set verification level
+discli server set --name "X"    # Change server name
+discli server set --description "X"            # Set description
+discli server set --verification medium        # Set verification level
 discli server set --notifications only_mentions  # Default notifications
-discli server set --content-filter all_members   # Content filter
 ```
 
-### Invites
+### 🔗 Invites
 
 ```bash
 discli invite list                         # List all invites
@@ -88,7 +90,7 @@ discli invite create <ch> --max-uses 10    # Max 10 uses
 discli invite delete <code> --confirm      # Delete invite
 ```
 
-### Channels
+### 💬 Channels
 
 ```bash
 discli channel list                          # List all channels by category
@@ -102,18 +104,19 @@ discli channel move <channel> --category X   # Move to a category
 discli channel delete <channel> --confirm    # Delete (requires --confirm)
 ```
 
-### Roles
+### 🎭 Roles
 
 ```bash
-discli role list                            # List all roles
-discli role create <name>                   # Create role
-discli role create <name> --color "#e74c3c" # Create with color
-discli role assign <role> <user>            # Give role to member
-discli role remove <role> <user>            # Remove role from member
-discli role delete <name> --confirm         # Delete (requires --confirm)
+discli role list                                       # List all roles
+discli role create <name>                              # Create role
+discli role create <name> --color "#e74c3c" --hoist    # With color and hoist
+discli role create <name> --permissions kick_members,ban_members  # With permissions
+discli role assign <role> <user>                       # Give role to member
+discli role remove <role> <user>                       # Remove role from member
+discli role delete <name> --confirm                    # Delete (requires --confirm)
 ```
 
-### Members
+### 👥 Members
 
 ```bash
 discli member list                                  # List members
@@ -123,7 +126,7 @@ discli member kick <user> --confirm --reason "spam" # Kick
 discli member ban <user> --confirm                  # Ban
 ```
 
-### Permissions
+### 🔒 Permissions
 
 ```bash
 discli perm view <channel>                             # View channel permissions
@@ -133,7 +136,7 @@ discli perm set <channel> <role> --deny send_messages  # Fine-grained control
 discli perm list                                       # List permission names
 ```
 
-### Messages
+### ✉️ Messages
 
 ```bash
 discli msg send <channel> "Hello world"                # Send message
@@ -152,7 +155,7 @@ discli msg thread <channel> "Thread Name"              # Create thread
 discli msg thread <channel> "Name" --message <msg-id>  # Thread from message
 ```
 
-### Audit Log
+### 📋 Audit Log
 
 ```bash
 discli audit log                         # View recent audit log
@@ -164,27 +167,27 @@ discli audit types                       # List all action type names
 
 <br>
 
-## For AI Agents
+## 🤖 For AI Agents
 
-discli is designed for AI coding agents like Claude Code, Cursor, Codex, and others.
+discli is designed for AI agents like [AIOS Companion](https://github.com/ibbybuilds/aegra), [OpenClaw](https://github.com/openclaw/openclaw), Claude Code, Cursor, Codex, and others.
 
 ### How agents use it
 
-1. Install the skill: copy `skills/SKILL.md` to your agent's skill directory
-2. Agent reads the skill and learns all available commands
-3. Agent runs commands and manages your server through the terminal
+1. 📦 Install discli globally or use npx
+2. 📄 Agent reads the skill file and learns all available commands
+3. ⚡ Agent runs commands and manages your server through the terminal
 
 ### Agent-friendly features
 
 | Feature | Details |
 |---------|---------|
-| YAML output by default | 5x fewer tokens than JSON when piped |
-| `-n` flag | Limit results to save tokens |
-| `--dry-run` | Preview changes before applying |
-| `--confirm` required | Destructive commands never auto-execute |
-| Structured exit codes | `0` success, `1` error, `2` usage, `3` not found, `4` forbidden |
-| SCHEMA.md | Documents output shapes for predictable parsing |
-| No MCP overhead | Zero token cost at session start |
+| 📊 YAML output by default | 5x fewer tokens than JSON when piped |
+| 🔢 `-n` flag | Limit results to save tokens |
+| 👀 `--dry-run` | Preview changes before applying |
+| ✋ `--confirm` required | Destructive commands never auto-execute |
+| 🔄 Structured exit codes | `0` success, `1` error, `2` usage, `3` not found, `4` forbidden |
+| 📐 SCHEMA.md | Documents output shapes for predictable parsing |
+| ⚡ No MCP overhead | Zero token cost at session start |
 
 ### Setup for Claude Code / Cursor
 
@@ -192,7 +195,11 @@ discli is designed for AI coding agents like Claude Code, Cursor, Codex, and oth
 # Install discli globally
 npm install -g @ibbybuilds/discli
 
-# Copy the skill file
+# Or use npx (no install needed)
+npx @ibbybuilds/discli channel list
+
+# Install the skill file for your agent
+mkdir -p ~/.claude/skills/discli
 cp node_modules/discli/skills/SKILL.md ~/.claude/skills/discli/SKILL.md
 
 # Done. Your agent can now use discli.
@@ -215,7 +222,7 @@ Agent runs:
 
 <br>
 
-## Global Flags
+## 🏁 Global Flags
 
 | Flag | Description |
 |------|-------------|
@@ -227,7 +234,7 @@ Agent runs:
 
 <br>
 
-## How It Works
+## ⚙️ How It Works
 
 discli is not a bot. It's a thin CLI wrapper around the [Discord REST API](https://discord.com/developers/docs/reference).
 
@@ -245,7 +252,7 @@ No WebSocket connection. No bot process. No server hosting. Your bot can be offl
 
 <br>
 
-## Bring Your Own Bot
+## 🔐 Bring Your Own Bot
 
 discli uses your bot token. You create the bot, you control the permissions, you own the data. Nothing is sent to us.
 
@@ -257,7 +264,7 @@ discli uses your bot token. You create the bot, you control the permissions, you
 
 <br>
 
-## Comparison
+## 📊 Comparison
 
 | | discli | Discord MCP | discord-cli | Manual UI |
 |---|---|---|---|---|
@@ -273,9 +280,16 @@ discli uses your bot token. You create the bot, you control the permissions, you
 
 <br>
 
-## Roadmap
+## 🗺️ Roadmap
 
-- [ ] Message management (send, pin, delete)
+- [x] Channel management (create, delete, rename, topic, move)
+- [x] Role management (create, delete, assign, permissions)
+- [x] Member management (list, kick, ban, nick)
+- [x] Permission management (view, set, lock, unlock)
+- [x] Message management (send, embed, read, edit, pin, react, thread)
+- [x] Audit log
+- [x] Invite management
+- [x] Server settings
 - [ ] Webhook management
 - [ ] Scheduled events
 - [ ] Automod rules
@@ -284,7 +298,7 @@ discli uses your bot token. You create the bot, you control the permissions, you
 
 <br>
 
-## License
+## 📄 License
 
 MIT
 
