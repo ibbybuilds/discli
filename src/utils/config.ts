@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { homedir } from 'os';
 import { join } from 'path';
 
-const CONFIG_DIR = join(homedir(), '.dctl');
+const CONFIG_DIR = join(homedir(), '.discli');
 const CONFIG_FILE = join(CONFIG_DIR, 'config.json');
 const ENV_FILE = join(CONFIG_DIR, '.env');
 
@@ -61,7 +61,7 @@ export function setDefaultServer(id: string, name: string): void {
 export function requireToken(): string {
   const token = loadToken();
   if (!token) {
-    console.error('Error: Not configured. Run "dctl init" first.');
+    console.error('Error: Not configured. Run "discli init" first.');
     process.exit(1);
   }
   return token;
@@ -70,7 +70,7 @@ export function requireToken(): string {
 export function requireServer(override?: string): string {
   const server = override || getDefaultServer();
   if (!server) {
-    console.error('Error: No server selected. Run "dctl server select" or use --server <id>.');
+    console.error('Error: No server selected. Run "discli server select" or use --server <id>.');
     process.exit(1);
   }
   return server;

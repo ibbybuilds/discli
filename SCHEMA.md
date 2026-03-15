@@ -1,4 +1,4 @@
-# dctl Output Schema
+# discli Output Schema
 
 All commands support `--format json` (or auto-detect when piped). This document describes the JSON output shape for each command so agents can parse without trial runs.
 
