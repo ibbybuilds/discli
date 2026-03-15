@@ -105,8 +105,38 @@ export class DiscordAPI {
 
   // ── Messages ──
 
-  async sendMessage(channelId: string, content: string): Promise<unknown> {
-    return await this.request('POST', `/channels/${channelId}/messages`, { content });
+  async sendMessage(channelId: string, content: string): Promise<Message> {
+    return (await this.request('POST', `/channels/${channelId}/messages`, { content })) as Message;
+  }
+
+  async getMessages(channelId: string, limit = 50, before?: string): Promise<Message[]> {
+    let path = `/channels/${channelId}/messages?limit=${Math.min(limit, 100)}`;
+    if (before) path += `&before=${before}`;
+    return (await this.request('GET', path)) as Message[];
+  }
+
+  async getMessage(channelId: string, messageId: string): Promise<Message> {
+    return (await this.request('GET', `/channels/${channelId}/messages/${messageId}`)) as Message;
+  }
+
+  async editMessage(channelId: string, messageId: string, content: string): Promise<Message> {
+    return (await this.request('PATCH', `/channels/${channelId}/messages/${messageId}`, { content })) as Message;
+  }
+
+  async deleteMessage(channelId: string, messageId: string): Promise<void> {
+    await this.request('DELETE', `/channels/${channelId}/messages/${messageId}`);
+  }
+
+  async pinMessage(channelId: string, messageId: string): Promise<void> {
+    await this.request('PUT', `/channels/${channelId}/pins/${messageId}`);
+  }
+
+  async unpinMessage(channelId: string, messageId: string): Promise<void> {
+    await this.request('DELETE', `/channels/${channelId}/pins/${messageId}`);
+  }
+
+  async getPinnedMessages(channelId: string): Promise<Message[]> {
+    return (await this.request('GET', `/channels/${channelId}/pins`)) as Message[];
   }
 
   async deleteChannel(channelId: string): Promise<void> {
@@ -240,4 +270,18 @@ export interface Member {
   nick: string | null;
   roles: string[];
   joined_at: string;
+}
+
+export interface Message {
+  id: string;
+  channel_id: string;
+  content: string;
+  timestamp: string;
+  edited_timestamp: string | null;
+  pinned: boolean;
+  author: {
+    id: string;
+    username: string;
+    bot?: boolean;
+  };
 }
