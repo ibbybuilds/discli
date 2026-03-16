@@ -22,7 +22,7 @@ No bot server needed. No dashboard clicking. Just commands.
 > Your AI agent ([AIOS Companion](https://aioscompanion.com), [OpenClaw](https://github.com/openclaw/openclaw), Claude Code, Cursor, Codex) can use discli to manage your Discord server. Create channels, assign roles, rename everything, in seconds.
 
 <p align="center">
-  <img src="assets/demo.gif" alt="discli demo - AI agent setting up a Discord server" width="100%">
+  <img src="assets/demo.webp" alt="discli demo - AI agent setting up a Discord server" width="100%">
 </p>
 
 <br>
