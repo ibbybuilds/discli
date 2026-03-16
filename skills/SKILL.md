@@ -32,6 +32,15 @@ npm install -g @ibbybuilds/discli@latest   # Update to latest
 If discli is not installed, install it first before running any commands.
 First-time setup: [docs/BOT_SETUP.md](https://github.com/ibbybuilds/discli/blob/master/docs/BOT_SETUP.md)
 
+## Message Limits
+
+- Message content: 2,000 characters max
+- Embed description: 4,096 characters max
+- Embed total (all fields combined): 6,000 characters max
+- Max 10 embeds per message
+
+If your message exceeds 2,000 characters, split it into multiple `msg send` calls. For longer content, use `msg embed` with --description (up to 4,096 chars). Never truncate silently.
+
 ## Quick Reference
 
 ```bash
