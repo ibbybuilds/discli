@@ -15,7 +15,7 @@
 
 <br>
 
-Create channels, manage roles, set permissions, and control your Discord servers from the terminal.
+Channels, roles, permissions, messages, embeds, files, emojis, invites, audit logs. Control your entire Discord server from the terminal.
 
 No bot server needed. No dashboard clicking. Just commands.
 
