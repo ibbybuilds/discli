@@ -1,3 +1,6 @@
+import { readFileSync } from 'fs';
+import { basename } from 'path';
+
 const BASE = 'https://discord.com/api/v10';
 
 export const PERMISSION: Record<string, bigint> = {
@@ -101,6 +104,42 @@ export class DiscordAPI {
     return res.json();
   }
 
+  private async requestMultipart(path: string, payload: unknown, files: { name: string; data: Buffer }[]): Promise<unknown> {
+    const form = new FormData();
+    form.append('payload_json', JSON.stringify(payload));
+    for (let i = 0; i < files.length; i++) {
+      form.append(`files[${i}]`, new Blob([new Uint8Array(files[i].data)]), files[i].name);
+    }
+
+    const res = await fetch(`${BASE}${path}`, {
+      method: 'POST',
+      headers: { Authorization: `Bot ${this.token}` },
+      body: form,
+    });
+
+    if (res.status === 429) {
+      const data = (await res.json()) as { retry_after?: number };
+      console.error(`Rate limited. Retry after ${data.retry_after ?? '?'}s.`);
+      process.exit(1);
+    }
+    if (res.status === 403) {
+      console.error('403 Forbidden — missing permissions.');
+      process.exit(4);
+    }
+    if (res.status === 404) {
+      console.error('404 Not found.');
+      process.exit(3);
+    }
+    if (res.status >= 400) {
+      const text = await res.text();
+      console.error(`Discord API error ${res.status}: ${text.slice(0, 200)}`);
+      process.exit(1);
+    }
+
+    if (res.status === 204) return null;
+    return res.json();
+  }
+
   // ── Guilds ──
 
   async listGuilds(): Promise<Guild[]> {
@@ -164,6 +203,16 @@ export class DiscordAPI {
 
   async sendMessage(channelId: string, data: MessagePayload): Promise<Message> {
     return (await this.request('POST', `/channels/${channelId}/messages`, data)) as Message;
+  }
+
+  async sendMessageWithFiles(channelId: string, data: MessagePayload, filePaths: string[]): Promise<Message> {
+    const files = filePaths.map((fp) => ({
+      name: basename(fp),
+      data: readFileSync(fp),
+    }));
+    const attachments = files.map((f, i) => ({ id: i, filename: f.name }));
+    const payload = { ...data, attachments };
+    return (await this.requestMultipart(`/channels/${channelId}/messages`, payload, files)) as Message;
   }
 
   async getMessages(channelId: string, limit = 50, before?: string): Promise<Message[]> {

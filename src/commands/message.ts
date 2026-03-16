@@ -1,3 +1,5 @@
+import { existsSync } from 'fs';
+import { resolve } from 'path';
 import { Command } from 'commander';
 import { DiscordAPI } from '../utils/api.js';
 import type { Embed, MessagePayload } from '../utils/api.js';
@@ -19,24 +21,46 @@ export function registerMessage(program: Command): void {
     .command('send')
     .description('Send a message to a channel')
     .argument('<channel>', 'Channel name or ID')
-    .argument('<text>', 'Message content (supports Discord markdown)')
+    .argument('[text]', 'Message content (supports Discord markdown)')
     .option('--reply <id>', 'Reply to a message ID')
-    .action(async (channelName: string, text: string, opts) => {
+    .option('--file <path...>', 'Attach file(s) (images, videos, documents, up to 25MB total)')
+    .action(async (channelName: string, text: string | undefined, opts) => {
       const fmt = resolveFormat(program.opts().format);
       const api = new DiscordAPI(requireToken());
       const guildId = requireServer(program.opts().server);
       const ch = await resolveChannel(api, guildId, channelName);
 
-      const payload: MessagePayload = { content: text };
+      if (!text && !opts.file) {
+        console.error('Provide message text or --file (or both).');
+        process.exit(2);
+      }
+
+      const payload: MessagePayload = {};
+      if (text) payload.content = text;
       if (opts.reply) {
         payload.message_reference = { message_id: opts.reply };
       }
 
-      const msg = await api.sendMessage(ch.id, payload);
+      let msg;
+      if (opts.file) {
+        const filePaths = (opts.file as string[]).map((f: string) => resolve(f));
+        for (const fp of filePaths) {
+          if (!existsSync(fp)) {
+            console.error(`File not found: ${fp}`);
+            process.exit(1);
+          }
+        }
+        msg = await api.sendMessageWithFiles(ch.id, payload, filePaths);
+      } else {
+        msg = await api.sendMessage(ch.id, payload);
+      }
+
       if (fmt !== 'table') {
         printResult(msg, fmt);
       } else {
-        console.log(`Sent message to #${ch.name} (${msg.id})`);
+        const fileCount = opts.file ? (opts.file as string[]).length : 0;
+        const fileInfo = fileCount > 0 ? ` with ${fileCount} file(s)` : '';
+        console.log(`Sent message to #${ch.name}${fileInfo} (${msg.id})`);
       }
     });
 
@@ -62,12 +86,30 @@ export function registerMessage(program: Command): void {
       const ch = await resolveChannel(api, guildId, channelName);
 
       const embed: Embed = {};
+      const localFiles: string[] = [];
+
       if (opts.title) embed.title = opts.title;
       if (opts.description) embed.description = opts.description;
       if (opts.color) embed.color = parseColor(opts.color);
       if (opts.url) embed.url = opts.url;
-      if (opts.image) embed.image = { url: opts.image };
-      if (opts.thumbnail) embed.thumbnail = { url: opts.thumbnail };
+      if (opts.image) {
+        const imgPath = resolve(opts.image);
+        if (existsSync(imgPath)) {
+          localFiles.push(imgPath);
+          embed.image = { url: `attachment://${opts.image.split('/').pop().split('\\').pop()}` };
+        } else {
+          embed.image = { url: opts.image };
+        }
+      }
+      if (opts.thumbnail) {
+        const thumbPath = resolve(opts.thumbnail);
+        if (existsSync(thumbPath)) {
+          localFiles.push(thumbPath);
+          embed.thumbnail = { url: `attachment://${opts.thumbnail.split('/').pop().split('\\').pop()}` };
+        } else {
+          embed.thumbnail = { url: opts.thumbnail };
+        }
+      }
       if (opts.footer) embed.footer = { text: opts.footer };
       if (opts.author) embed.author = { name: opts.author };
       if (opts.field) {
@@ -90,7 +132,13 @@ export function registerMessage(program: Command): void {
       if (opts.content) payload.content = opts.content;
       if (opts.reply) payload.message_reference = { message_id: opts.reply };
 
-      const msg = await api.sendMessage(ch.id, payload);
+      let msg;
+      if (localFiles.length > 0) {
+        msg = await api.sendMessageWithFiles(ch.id, payload, localFiles);
+      } else {
+        msg = await api.sendMessage(ch.id, payload);
+      }
+
       if (fmt !== 'table') {
         printResult(msg, fmt);
       } else {
