@@ -17,13 +17,14 @@ src/
   cli.ts              # Entry point, registers all command groups
   commands/
     init.ts            # discli init
-    server.ts          # discli server {list, select, info, set}
+    server.ts          # discli server {list, select, info, set, icon}
     invite.ts          # discli invite {list, create, delete}
-    channel.ts         # discli channel {list, create, delete, rename, topic, move}
-    role.ts            # discli role {list, create, delete, assign, remove}
+    channel.ts         # discli channel {list, create, delete, rename, topic, move, clone, slowmode}
+    role.ts            # discli role {list, create, edit, delete, assign, remove}
     member.ts          # discli member {list, info, kick, ban, nick}
     permission.ts      # discli perm {view, set, lock, unlock, list}
-    message.ts         # discli msg {send, embed, read, edit, delete, react, unreact, pin, unpin, pins, thread}
+    message.ts         # discli msg {send, embed, read, edit, delete, bulk-delete, search, react, unreact, pin, unpin, pins, thread}
+    emoji.ts           # discli emoji {list, upload, delete}
     audit.ts           # discli audit {log, types}
   utils/
     api.ts             # DiscordAPI class, all REST calls, types

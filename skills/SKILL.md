@@ -31,6 +31,7 @@ discli server set --name "X"         # Change server name
 discli server set --description "X"  # Set description
 discli server set --verification medium  # Verification level
 discli server set --notifications only_mentions  # Notification default
+discli server icon ./logo.png            # Change server icon
 
 discli invite list                    # List all invites
 discli invite create <channel>        # Create invite
@@ -43,9 +44,12 @@ discli channel delete <name>          # Delete channel (--confirm required)
 discli channel rename <ch> <name>     # Rename channel
 discli channel topic <ch> <text>      # Set topic
 discli channel move <ch>              # Move to category (--category, --position)
+discli channel clone <ch>             # Clone channel with same settings
+discli channel slowmode <ch> <sec>    # Set slowmode (0 to disable)
 
 discli role list                      # List roles
 discli role create <name>             # Create role (--color, --mentionable)
+discli role edit <name> --color "#hex" --name "New"  # Edit role
 discli role delete <name>             # Delete role (--confirm required)
 discli role assign <role> <user>      # Give role to member
 discli role remove <role> <user>      # Remove role from member
@@ -69,9 +73,11 @@ discli msg send <ch> --file ./a.png --file ./b.pdf  # Multiple files
 discli msg embed <ch> --title "X" --description "Y" --color "#hex"  # Rich embed
 discli msg embed <ch> --title "X" --image ./local.png  # Embed with local image
 discli msg embed <ch> --title "X" --field "Name|Value|inline"       # Embed with fields
+discli msg search <ch> "keyword"      # Search messages by keyword
 discli msg read <channel> -n 10       # Read last N messages
 discli msg edit <ch> <msg-id> "new"   # Edit bot message
 discli msg delete <ch> <id> --confirm # Delete message
+discli msg bulk-delete <ch> -n 10 --confirm  # Delete multiple messages
 discli msg react <ch> <id> 👍         # Add reaction
 discli msg unreact <ch> <id> 👍       # Remove reaction
 discli msg pin <ch> <id>              # Pin message
@@ -79,6 +85,10 @@ discli msg unpin <ch> <id>            # Unpin message
 discli msg pins <channel>             # List pinned messages
 discli msg thread <ch> "Name"         # Create thread
 discli msg thread <ch> "Name" --message <id>  # Thread from message
+
+discli emoji list                        # List custom emojis
+discli emoji upload <name> ./img.png     # Upload custom emoji
+discli emoji delete <name> --confirm     # Delete custom emoji
 
 discli audit log                         # View recent audit log
 discli audit log -n 50                   # Last 50 entries

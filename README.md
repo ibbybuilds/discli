@@ -97,6 +97,7 @@ discli server set --name "X"    # Change server name
 discli server set --description "X"            # Set description
 discli server set --verification medium        # Set verification level
 discli server set --notifications only_mentions  # Default notifications
+discli server icon ./logo.png           # Change server icon
 ```
 
 ### 🔗 Invites
@@ -120,7 +121,10 @@ discli channel create "Dev" --type category  # Create a category
 discli channel rename <channel> <new-name>   # Rename channel
 discli channel topic <channel> "topic text"  # Set channel topic
 discli channel move <channel> --category X   # Move to a category
-discli channel delete <channel> --confirm    # Delete (requires --confirm)
+discli channel clone <channel>               # Clone channel with same settings
+discli channel clone <channel> --name "new" # Clone with new name
+discli channel slowmode <channel> 5         # Set slowmode (seconds, 0 to disable)
+discli channel delete <channel> --confirm   # Delete (requires --confirm)
 ```
 
 ### 🎭 Roles
@@ -130,6 +134,8 @@ discli role list                                       # List all roles
 discli role create <name>                              # Create role
 discli role create <name> --color "#e74c3c" --hoist    # With color and hoist
 discli role create <name> --permissions kick_members,ban_members  # With permissions
+discli role edit <name> --color "#3498db"               # Change role color
+discli role edit <name> --name "New Name" --hoist      # Rename and hoist
 discli role assign <role> <user>                       # Give role to member
 discli role remove <role> <user>                       # Remove role from member
 discli role delete <name> --confirm                    # Delete (requires --confirm)
@@ -165,9 +171,11 @@ discli msg send <channel> --file ./a.png --file ./b.pdf              # Multiple 
 discli msg embed <channel> --title "X" --description "Y" --color "#5865F2"  # Rich embed
 discli msg embed <channel> --title "X" --field "Name|Value|inline"          # Embed with fields
 discli msg embed <channel> --title "X" --image ./screenshot.png      # Embed with local image
+discli msg search <channel> "keyword"                   # Search messages by keyword
 discli msg read <channel> -n 10                        # Read last N messages
 discli msg edit <channel> <msg-id> "new text"          # Edit bot message
 discli msg delete <channel> <msg-id> --confirm         # Delete message
+discli msg bulk-delete <channel> -n 10 --confirm      # Delete multiple messages
 discli msg react <channel> <msg-id> 👍                  # Add reaction
 discli msg unreact <channel> <msg-id> 👍                # Remove reaction
 discli msg pin <channel> <msg-id>                      # Pin message
@@ -175,6 +183,14 @@ discli msg unpin <channel> <msg-id>                    # Unpin message
 discli msg pins <channel>                              # List pinned messages
 discli msg thread <channel> "Thread Name"              # Create thread
 discli msg thread <channel> "Name" --message <msg-id>  # Thread from message
+```
+
+### 😎 Emojis
+
+```bash
+discli emoji list                        # List custom emojis
+discli emoji upload <name> ./emoji.png   # Upload custom emoji (png, jpg, gif, max 256KB)
+discli emoji delete <name> --confirm     # Delete custom emoji
 ```
 
 ### 📋 Audit Log
@@ -325,20 +341,27 @@ discli uses your bot token. You create the bot, you control the permissions, you
 | **Set permissions** | ✅ | ✅ | ❌ | ✅ |
 | **Read messages** | ✅ | ✅ | ✅ | ✅ |
 | **Send embeds** | ✅ | ✅ | ❌ | ✅ |
+| **File uploads** | ✅ | ✅ | ❌ | ✅ |
+| **Custom emojis** | ✅ | ❌ | ❌ | ✅ |
+| **Bulk delete** | ✅ | ❌ | ❌ | ✅ |
+| **Bot personality** | ✅ | ❌ | ❌ | ❌ |
 | **Self-hosted** | ✅ | ✅ | ✅ | N/A |
 
 <br>
 
 ## 🗺️ Roadmap
 
-- [x] Channel management (create, delete, rename, topic, move)
-- [x] Role management (create, delete, assign, permissions)
+- [x] Channel management (create, delete, rename, topic, move, clone, slowmode)
+- [x] Role management (create, edit, delete, assign, permissions)
 - [x] Member management (list, kick, ban, nick)
 - [x] Permission management (view, set, lock, unlock)
-- [x] Message management (send, embed, read, edit, pin, react, thread)
+- [x] Message management (send, embed, read, edit, pin, react, thread, search, bulk-delete)
+- [x] File uploads (images, videos, documents, up to 25MB)
+- [x] Emoji management (list, upload, delete)
 - [x] Audit log
 - [x] Invite management
-- [x] Server settings
+- [x] Server settings and icon
+- [x] Bot personality (SOUL.md)
 - [ ] Webhook management
 - [ ] Scheduled events
 - [ ] Automod rules
