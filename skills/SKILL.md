@@ -22,6 +22,14 @@ Control Discord servers from the terminal. Works for both humans and AI agents.
 - Destructive commands (delete, kick, ban) require `--confirm` — they will NOT prompt.
 - See SCHEMA.md for output shapes.
 
+## Install
+
+```bash
+npm install -g @ibbybuilds/discli
+```
+
+If discli is not installed, install it first before running any commands.
+
 ## Quick Reference
 
 ```bash
