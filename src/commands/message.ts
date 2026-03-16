@@ -1,5 +1,5 @@
-import { existsSync } from 'fs';
-import { resolve } from 'path';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { resolve, join } from 'path';
 import { Command } from 'commander';
 import { DiscordAPI } from '../utils/api.js';
 import type { Embed, MessagePayload } from '../utils/api.js';
@@ -295,6 +295,43 @@ export function registerMessage(program: Command): void {
         console.log(`    ${msg.content}`);
         console.log(`    ID: ${msg.id}`);
         console.log();
+      }
+    });
+
+  message
+    .command('download')
+    .description('Download attachments from a message')
+    .argument('<channel>', 'Channel name or ID')
+    .argument('<message-id>', 'Message ID')
+    .option('--output <dir>', 'Output directory', '.')
+    .action(async (channelName: string, messageId: string, opts) => {
+      const api = new DiscordAPI(requireToken());
+      const guildId = requireServer(program.opts().server);
+      const ch = await resolveChannel(api, guildId, channelName);
+
+      const msg = await api.getMessage(ch.id, messageId);
+      const attachments = msg.attachments ?? [];
+
+      if (attachments.length === 0) {
+        console.error('No attachments found on this message.');
+        process.exit(1);
+      }
+
+      const outDir = resolve(opts.output);
+      if (!existsSync(outDir)) {
+        mkdirSync(outDir, { recursive: true });
+      }
+
+      for (const att of attachments) {
+        const res = await fetch(att.url);
+        if (!res.ok) {
+          console.error(`Failed to download ${att.filename}: ${res.status}`);
+          continue;
+        }
+        const buffer = Buffer.from(await res.arrayBuffer());
+        const outPath = join(outDir, att.filename);
+        writeFileSync(outPath, buffer);
+        console.log(`Downloaded ${att.filename} (${(att.size / 1024).toFixed(1)}KB) → ${outPath}`);
       }
     });
 

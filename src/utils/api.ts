@@ -443,6 +443,14 @@ export interface MessagePayload {
   message_reference?: { message_id: string };
 }
 
+export interface Attachment {
+  id: string;
+  filename: string;
+  size: number;
+  url: string;
+  content_type?: string;
+}
+
 export interface Message {
   id: string;
   channel_id: string;
@@ -456,6 +464,7 @@ export interface Message {
     bot?: boolean;
   };
   embeds?: Embed[];
+  attachments?: Attachment[];
 }
 
 export interface Emoji {
