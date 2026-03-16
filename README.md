@@ -66,11 +66,14 @@ discli server info
 
 <br>
 
+> Full step-by-step guide: [docs/BOT_SETUP.md](docs/BOT_SETUP.md)
+
 1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
 2. Create a new application
 3. Go to **Bot** > **Reset Token** > copy it
-4. Go to **Installation** > set **Guild Install** scopes: `bot`, `applications.commands` with **Administrator** permission
-5. Use the install link to add the bot to your server
+4. Enable **Message Content Intent** (required to read messages)
+5. Go to **Installation** > set **Guild Install** scopes: `bot`, `applications.commands` with **Administrator** permission
+6. Use the install link to add the bot to your server
 6. Run `discli init --token YOUR_TOKEN`
 
 > 💡 **Permissions tip:** Administrator gives discli full access, but you don't have to. You can select only the permissions you need (Manage Channels, Manage Roles, etc.). Some features won't work without specific permissions, but you stay in control of what the bot can do.
