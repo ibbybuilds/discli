@@ -19,7 +19,7 @@ Create channels, manage roles, set permissions, and control your Discord servers
 
 No bot server needed. No dashboard clicking. Just commands.
 
-> Your AI agent ([AIOS Companion](https://aioscompanion.com), [OpenClaw](https://github.com/openclaw/openclaw), Claude Code, Cursor, Codex) can use discli to manage your Discord server. Create channels, assign roles, rename everything, in seconds.
+> Your AI agent ([AIOS Companion](https://aioscompanion.com), OpenClaw, Claude Code, Cursor, Codex) can use discli to manage your Discord server. Create channels, assign roles, rename everything, in seconds.
 
 <p align="center">
   <img src="assets/demo.webp" alt="discli demo - AI agent setting up a Discord server" width="100%">
@@ -188,7 +188,7 @@ discli audit types                       # List all action type names
 
 ## 🤖 For AI Agents
 
-discli is designed for AI agents like [AIOS Companion](https://aioscompanion.com), [OpenClaw](https://github.com/openclaw/openclaw), Claude Code, Cursor, Codex, and others.
+discli is designed for AI agents like [AIOS Companion](https://aioscompanion.com), OpenClaw, Claude Code, Cursor, Codex, and others.
 
 ### How agents use it
 
@@ -249,7 +249,7 @@ You define things like:
 
 The agent creates the file after a short conversation about what you want. Every bot gets its own voice.
 
-> Inspired by [OpenClaw's SOUL.md](https://github.com/openclaw/openclaw) system.
+> Inspired by OpenClaw's SOUL.md system.
 
 ### Example: agent sets up an entire server
 
